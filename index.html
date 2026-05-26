@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Shelby Sapp Content-to-Sales Engine — Case Study + Gloria Playbook</title>
+<style>
+  :root {
+    --bg: #0b0d10;
+    --panel: #14181d;
+    --panel-2: #1b2129;
+    --line: #262d36;
+    --text: #e6e8eb;
+    --muted: #8a939f;
+    --accent: #4ade80;
+    --warn: #fbbf24;
+    --bad: #f87171;
+    --info: #60a5fa;
+    --purple: #a78bfa;
+    --pink: #f472b6;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    font-size: 14px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 80px; }
+  header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+  }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); margin-bottom: 8px; }
+  h1 { font-size: 28px; margin: 0 0 8px; letter-spacing: -0.02em; line-height: 1.15; }
+  h1 .dim { color: var(--muted); font-weight: 600; }
+  .lede { color: var(--muted); font-size: 15px; max-width: 760px; }
+  section { margin-bottom: 36px; }
+  h2 {
+    font-size: 12px; margin: 0 0 14px; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--muted); font-weight: 600;
+    border-bottom: 1px solid var(--line); padding-bottom: 8px;
+  }
+  h2 .n { color: var(--pink); margin-right: 8px; font-family: var(--mono); }
+  h3 { font-size: 15px; margin: 0 0 8px; font-weight: 600; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--muted); }
+  .grid { display: grid; gap: 16px; }
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: 1fr 1fr 1fr; }
+  .g5 { grid-template-columns: repeat(5, 1fr); }
+  @media (max-width: 880px) { .g2,.g3,.g5 { grid-template-columns: 1fr; } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+  .panel.pink { border-left: 3px solid var(--pink); }
+  .panel.accent { border-left: 3px solid var(--accent); }
+  .panel.warn { border-left: 3px solid var(--warn); }
+  .panel.bad { border-left: 3px solid var(--bad); }
+  .panel.info { border-left: 3px solid var(--info); }
+  .panel.purple { border-left: 3px solid var(--purple); }
+  .big { font-family: var(--mono); font-size: 30px; font-weight: 600; letter-spacing: -0.02em; }
+  .big .unit { font-size: 13px; color: var(--muted); margin-left: 4px; font-weight: 400; }
+
+  /* funnel flow */
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  @media (max-width: 880px) { .flow { grid-template-columns: 1fr; } }
+  .stage { padding: 16px; border-right: 1px solid var(--line); position: relative; }
+  .stage:last-child { border-right: none; }
+  .stage .num { font-family: var(--mono); font-size: 11px; color: var(--pink); }
+  .stage h4 { margin: 4px 0 6px; font-size: 15px; font-weight: 600; }
+  .stage p { font-size: 12.5px; color: var(--muted); margin: 0; }
+  .stage::after { content: "→"; position: absolute; right: -9px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--muted); background: var(--bg); padding: 0 3px; z-index: 1; }
+  .stage:last-child::after { display: none; }
+  @media (max-width: 880px) { .stage::after { content: "↓"; right: 50%; top: auto; bottom: -10px; transform: translateX(50%); } }
+
+  ul.clean { margin: 0; padding-left: 18px; }
+  ul.clean li { margin-bottom: 7px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--mono); }
+  .tag.green { background: rgba(74,222,128,0.15); color: var(--accent); }
+  .tag.yellow { background: rgba(251,191,36,0.15); color: var(--warn); }
+  .tag.red { background: rgba(248,113,113,0.15); color: var(--bad); }
+  .tag.pink { background: rgba(244,114,182,0.15); color: var(--pink); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+  .col-shelby { color: var(--pink); font-weight: 600; }
+  .col-gloria { color: var(--accent); font-weight: 600; }
+  .copy { font-family: var(--mono); background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; font-size: 12.5px; color: var(--text); display: block; white-space: pre-wrap; word-break: break-word; }
+  .check { list-style: none; padding: 0; margin: 0; }
+  .check li { padding: 10px 0; border-bottom: 1px dashed var(--line); display: flex; gap: 10px; align-items: flex-start; }
+  .check li:last-child { border-bottom: none; }
+  .check .box { font-family: var(--mono); color: var(--pink); flex-shrink: 0; }
+  .pill { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  footer { border-top: 1px solid var(--line); padding-top: 16px; color: var(--muted); font-size: 12px; }
+  a { color: var(--info); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout { background: rgba(244,114,182,0.07); border: 1px solid rgba(244,114,182,0.3); border-radius: 10px; padding: 18px; }
+  .label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Competitor Teardown · UGC World · May 2026</div>
+  <h1>The Shelby Sapp Content-to-Sales Engine <span class="dim">— and how Gloria runs the same play</span></h1>
+  <p class="lede">Shelby Sapp does a reported ~$400K+/mo off one Instagram motion: high-volume reels → one keyword → a live masterclass → a sales call. This is the deconstruction, the part everyone copies wrong, and the line-by-line translation into Gloria's voice so UGC World can run it.</p>
+</header>
+
+<!-- THE MODEL IN ONE LINE -->
+<section>
+  <h2><span class="n">01</span>The whole engine in one line</h2>
+  <div class="callout">
+    <p style="font-size:17px; margin:0; line-height:1.55;"><strong>Post daily lifestyle + tactic reels → end every one with the <span class="col-shelby">same single keyword</span> → ManyChat auto-DMs a link to a <span style="color:var(--warn)">free live masterclass</span> → the masterclass is a 2-hour pitch whose only ask is <strong>"book a call"</strong> → closers close on a hidden, escalating price.</strong></p>
+  </div>
+  <div class="grid g3" style="margin-top:16px;">
+    <div class="panel pink"><div class="label">Reported revenue</div><div class="big">$400K<span class="unit">+ / mo</span></div></div>
+    <div class="panel pink"><div class="label">Instagram audience</div><div class="big">~2M<span class="unit">followers</span></div></div>
+    <div class="panel pink"><div class="label">Keywords used</div><div class="big">1<span class="unit">"MASTERCLASS"</span></div></div>
+  </div>
+</section>
+
+<!-- THE FUNNEL FLOW -->
+<section>
+  <h2><span class="n">02</span>The funnel, stage by stage</h2>
+  <div class="flow">
+    <div class="stage">
+      <div class="num">01</div><h4>Reel</h4>
+      <p>Daily. Lifestyle proof (Porsche, Miami) + one sharp sales tip. CTA: "Comment MASTERCLASS."</p>
+    </div>
+    <div class="stage">
+      <div class="num">02</div><h4>Comment → DM</h4>
+      <p>ManyChat catches the keyword, auto-replies to the comment AND opens a DM with the reg link.</p>
+    </div>
+    <div class="stage">
+      <div class="num">03</div><h4>Live Masterclass</h4>
+      <p>Free Zoom, runs every few weeks. The selling happens here, not on the page.</p>
+    </div>
+    <div class="stage">
+      <div class="num">04</div><h4>Book a Call</h4>
+      <p>The only ask of the 2-hour class. Price is withheld until the call.</p>
+    </div>
+    <div class="stage">
+      <div class="num">05</div><h4>Closer Closes</h4>
+      <p>Advisors close on She Sells Academy. Price escalates over time ($3K→$6K).</p>
+    </div>
+  </div>
+  <p class="muted" style="margin-top:12px; font-size:12.5px;">Secondary path: a "Hot Girl Sales Mindset" free guide captures name/email/phone for aggressive follow-up — a catch-net for people not ready to register live.</p>
+</section>
+
+<!-- WHY IT WORKS -->
+<section>
+  <h2><span class="n">03</span>The 5 mechanics that actually make it work</h2>
+  <div class="grid g2">
+    <div class="panel accent"><h3>1. One keyword, forever</h3><p class="muted">Every reel uses the same word. The audience learns one verb. No fragmentation, no broken automations, no "which keyword was that reel." Operational simplicity at scale is the edge — not a limitation.</p></div>
+    <div class="panel accent"><h3>2. A live event in the middle</h3><p class="muted">She does not send cold traffic to a static reg page and pray. The masterclass is a human, time-boxed event that does the heavy persuasion <em>before</em> anyone talks to a closer. This is the piece most people skip.</p></div>
+    <div class="panel accent"><h3>3. Volume is the strategy</h3><p class="muted">Daily posting. Reels are the highest-comment format, so every reel is a fresh mouth to the same funnel. She doesn't need a viral hit; she needs reps.</p></div>
+    <div class="panel accent"><h3>4. Lifestyle = proof = the offer</h3><p class="muted">The Porsche/Miami content isn't vanity — it's the demonstration of the outcome she sells. The lifestyle IS the proof element. The tip earns the save; the lifestyle earns the desire.</p></div>
+    <div class="panel accent"><h3>5. Price lives on the call</h3><p class="muted">No price anywhere public. The masterclass sells the outcome; the call reveals the number to a warm, pre-sold human. Removes price-shopping from the funnel entirely.</p></div>
+    <div class="panel warn"><h3>The trade-off to know</h3><p class="muted">Reviews are mixed and the "hidden price + escalation + scarcity waitlist" stack draws scam complaints. Copy the <strong>architecture</strong>, not the high-pressure opacity. Gloria's brand wins on trust — keep the structure, lose the bait.</p></div>
+  </div>
+</section>
+
+<!-- THE SEGMENTATION TRUTH -->
+<section>
+  <h2><span class="n">04</span>The segmentation truth (the question that started this)</h2>
+  <div class="grid g2">
+    <div class="panel bad">
+      <div class="label">The wrong question</div>
+      <h3>"If every reel uses the same keyword, how do I segment by which reel they came from inside ManyChat?"</h3>
+      <p class="muted">You can't — and Shelby never tries to. One keyword means ManyChat has no idea which reel fired it. She treats the keyword as a <strong>trigger</strong>, not an attribution tool. Tagging every reel inside ManyChat is effort spent answering a question her funnel doesn't need answered.</p>
+    </div>
+    <div class="panel accent">
+      <div class="label">Where attribution actually belongs</div>
+      <h3>Two layers, neither one is the keyword</h3>
+      <ul class="clean muted">
+        <li><strong>Which reel is working</strong> → read Instagram's native insights (comments/saves/DMs on the post). The reel tells you itself.</li>
+        <li><strong>Which reel drove an opt-in</strong> → put a unique <span class="pill">utm_content=RL-slug</span> on the DM link. The slug rides into the reg page; your analytics segment there.</li>
+        <li><strong>ManyChat tags</strong> → only worth it if you plan to <em>broadcast back</em> to "people from reel X." Shelby doesn't, because they all want the same thing.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- GLORIA TRANSLATION -->
+<section>
+  <h2><span class="n">05</span>The Gloria translation — same engine, our brand</h2>
+  <table>
+    <thead><tr><th style="width:18%">Layer</th><th style="width:41%" class="col-shelby">Shelby (sales coaching)</th><th style="width:41%" class="col-gloria">Gloria / UGC World</th></tr></thead>
+    <tbody>
+      <tr><td>Audience</td><td class="muted">Women wanting remote high-ticket sales jobs</td><td class="muted">Women wanting to get paid creating UGC / build location-free income</td></tr>
+      <tr><td>Content</td><td class="muted">Daily reels: lifestyle + "no BS" sales tips from the Porsche</td><td class="muted">Daily reels: Gloria's life + one concrete UGC tip (rate, pitch, gear, mindset)</td></tr>
+      <tr><td>Keyword</td><td class="muted">"MASTERCLASS" — one word, every reel</td><td class="muted">Pick ONE and never change it. Candidates: <span class="tag pink">"FREEDOM"</span> <span class="tag pink">"CREATE"</span> <span class="tag pink">"UGC"</span></td></tr>
+      <tr><td>Auto-DM</td><td class="muted">ManyChat → masterclass reg link</td><td class="muted">ManyChat → <span class="pill">ugc-world.com/registration</span> with utm slug</td></tr>
+      <tr><td>The middle</td><td class="muted"><strong>Live Zoom masterclass</strong>, every few weeks</td><td class="muted"><strong>Our live webinar</strong> — this already exists. This is the unlock: we have the event, we under-feed it.</td></tr>
+      <tr><td>The ask</td><td class="muted">Book a sales call</td><td class="muted">Book a call (same)</td></tr>
+      <tr><td>Close</td><td class="muted">Closer, hidden escalating price</td><td class="muted">Closer team, $2K–$6K — price on the call (same)</td></tr>
+      <tr><td>Proof</td><td class="muted">Her lifestyle = the outcome</td><td class="muted">Creator wins + Gloria's life = the outcome. Lean on student results, not just lifestyle.</td></tr>
+      <tr><td>Trust posture</td><td class="muted">Scarcity/opacity, mixed reviews</td><td class="muted"><span class="tag green">Keep the structure, drop the bait.</span> Real proof, honest follow-up. Trust is our moat.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- THE GAP -->
+<section>
+  <h2><span class="n">06</span>What to copy, what to skip, where the gap is</h2>
+  <div class="grid g3">
+    <div class="panel accent"><div class="label">Copy this</div><ul class="clean muted"><li>One permanent keyword</li><li>Daily reel volume → same destination</li><li><strong>Live event in the middle</strong></li><li>Price stays on the call</li><li>utm_content slug for attribution</li></ul></div>
+    <div class="panel bad"><div class="label">Skip this</div><ul class="clean muted"><li>Per-reel ManyChat tagging (busywork)</li><li>Hidden-price scarcity bait</li><li>Fake/staged street content</li><li>Aggressive escalation pricing</li><li>Optimizing plumbing before the funnel exists</li></ul></div>
+    <div class="panel warn"><div class="label">The gap to close first</div><p class="muted">Our current DM link routes straight to a <strong>registration page</strong>. Shelby's leverage is the <strong>live class between the reel and the call</strong> that pre-sells before a closer ever speaks. We already run webinars — the fix isn't building one, it's <strong>pointing the daily reel engine at it</strong> and feeding it consistently.</p></div>
+  </div>
+</section>
+
+<!-- REPLICATION CHECKLIST -->
+<section>
+  <h2><span class="n">07</span>Gloria's replication checklist</h2>
+  <div class="panel">
+    <ul class="check">
+      <li><span class="box">[ ]</span><span><strong>Lock one keyword.</strong> Decide it once (FREEDOM / CREATE / UGC). Never change it. Every reel ends with "comment [WORD]."</span></li>
+      <li><span class="box">[ ]</span><span><strong>Build the ManyChat comment-to-DM automation</strong> on that keyword → auto-reply to comment + DM the reg link with <span class="pill">utm_source=instagram&utm_medium=manychat&utm_content=RL-[slug]</span>.</span></li>
+      <li><span class="box">[ ]</span><span><strong>Point the DM at the live webinar reg</strong>, not a static page. Webinar = the persuasion engine.</span></li>
+      <li><span class="box">[ ]</span><span><strong>Ship one reel a day.</strong> Format: Gloria's life + one concrete UGC tip + the keyword CTA. Volume beats polish.</span></li>
+      <li><span class="box">[ ]</span><span><strong>Read reel performance in Instagram insights</strong> (comments/saves/DMs), not ManyChat. Double down on hooks that drive comments.</span></li>
+      <li><span class="box">[ ]</span><span><strong>Track opt-ins by reel via the utm slug</strong> at the destination — that's your "which reel closes" answer.</span></li>
+      <li><span class="box">[ ]</span><span><strong>Keep price on the call.</strong> Webinar sells the outcome; closer reveals the number to a warm lead.</span></li>
+      <li><span class="box">[ ]</span><span><strong>Win on trust.</strong> Real student proof, honest scarcity, clean follow-up. That's the one place we beat her on purpose.</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Sources: <a href="https://coursiest.com/sapp/">coursiest funnel review</a> · <a href="https://training.shesellsremote.com/">She Sells masterclass page</a> · <a href="https://www.inc.com/sydney-sladovnik/3-no-bs-sales-tips-from-a-gen-z-entrepreneur/90999245">Inc. profile</a> · <a href="https://www.instagram.com/shelby.sapp/reel/C-vjSBZOeT1/">her "comment MASTERCLASS" reel</a></p>
+  <p class="pill">Teardown built for case study + Gloria presentation. Copy the architecture, not the opacity.</p>
+</footer>
+
+</div>
+</body>
+</html>
